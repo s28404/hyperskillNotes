@@ -64,7 +64,8 @@
 # def calculate_tax(income, tax):
 #     return pd.Series({'Tax rate': (income / tax) * 100, 'Tax rank': 10000 - tax})
 
-# result_tax = df[['Income', 'Tax']].apply(lambda x: calculate_tax(*x), axis=1, result_type='expand')
+# result_tax = df[['Income', 'Tax']].apply(lambda x: calculate_tax(*x),
+# axis=1, result_type='expand')
 # print(result_tax)
 
 # def sum_row(row):
@@ -125,43 +126,45 @@
 
 # for key, group in itertools.groupby(all_students, key=lambda x: len(x)):
 #     print(key, list(group))
+"""
+This script demonstrates the usage of various features from the astropy library.
+"""
+
 import numpy as np
 import astropy.units as u
-from astropy.constants import mu0
-from astropy import constants as const
 from astropy.coordinates import SkyCoord
-from astropy.cosmology import WMAP3
 from astropy.cosmology import FlatLambdaCDM
 
+# Unit Conversion
 lengths = np.array([49, 58, 947])
 lengths = lengths * u.kilometer
 print(lengths)
 
+# Time Conversion
 time = 14 * u.hour
 print(time.to(u.second))
 
+# Constants (Manually defined G and mu0)
+G = 6.67430e-11 * u.m**3 / (u.kg * u.s**2)
+mu0 = 4 * np.pi * 1e-7 * u.N / u.A**2
 print(mu0.value)
 print(mu0)
 
-F = const.G * 488 * u.kg
+# Gravitational Force
+F = G * 488 * u.kg
 print(F)
 
+# SkyCoord
 polaris = SkyCoord(ra=37.95456067*u.degree, dec=89.26410897*u.degree, frame='icrs')
-# ra (Right Ascension): east-west 
-# dec (Declination): north-south
 print(polaris)
 
+# SkyCoord from Name
 aldebaran = SkyCoord.from_name('aldebaran')
 print(aldebaran)
 
-print('--------')
-aldebaran = SkyCoord.from_name('aldebaran')  
-polaris = SkyCoord.from_name('polaris')
-print(polaris.separation(aldebaran))  # 72∘51′37.66786948′′
+# Angular Separation
+print(polaris.separation(aldebaran))
 
-print('---------')
-print(WMAP3.__doc__)  # WMAP3 instance of FlatLambdaCDM cosmology
-
-print('----------')
+# Cosmology (Using FlatLambdaCDM)
 my_cosmo = FlatLambdaCDM(H0=67.7, Om0=0.272)
 print(my_cosmo)
