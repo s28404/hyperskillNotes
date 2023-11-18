@@ -1,100 +1,167 @@
-# import matplotlib.pyplot as plt
+# import pandas as pd
+# import numpy as np
+# from tqdm import tqdm
 
-# # data = [163, 163, 164, 170, 170, 172, 173, 190]
-# # plt.hist(data, color="orange", edgecolor="white")
-# # plt.title("My friends' height")
-# # plt.ylabel("Number of people")
-# # plt.xlabel("Height in cm")
-# # plt.show()
+# df = pd.DataFrame({
+#    'Name': ['John', 'Jane', 'Bob', 'Mary', 'Ivan'],
+#    'City': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Moscow'],
+#    'Age': [32, 25, 47, 19, 45],
+#    'Income': [55000, 72000, 89000, 41000, 45000]
+# })
 
-# # bins = [160, 170, 180, 190]
-# # plt.hist(data, color='orange', edgecolor='white', range=(170, 180))
+# def change_row(row):
+#     row['Name'] = row['Name'].upper()
+#     row['City'] = row['City'].lower()
+#     row['Age'] = row['Age'] + 10
+#     row['Income'] = row['Income'] * 1.1
+#     return row
 
-# # plt.legend()
-# # plt.show()
+# df = df.apply(change_row, axis=1)
+# print(df)
 
-# # my_data = [163, 163, 164, 170, 170, 172, 173, 190]
-# # andy_data = [161, 172, 174, 175, 181, 183, 186, 190]
-# # bins = [160, 170, 180, 190]
-# # names = ["my friends", "Andy's friends"]
+# def add_tax(row):
+#     if row['Income'] > 60000:
+#         tax = row['Income'] * 0.1
+#     else:
+#         tax = row['Income'] * 0.05
+#     return tax
 
-# # plt.hist([my_data, andy_data], bins=bins, label=names, color=['red', 'green'], stacked=True, edgecolor='white')
-# # plt.title("Mine and Andy's friends' height")
-# # plt.ylabel("Number of people")
-# # plt.xlabel("Height in cm")
+# df['Tax'] = df.apply(add_tax, axis=1)
+# print(df)
 
-# # plt.legend()
+# def add_suffix(col, suffix):
+#     return col + suffix
 
-# # plt.show()
+# # Apply the function to a single column
+# df['Name'] = df['Name'].apply(add_suffix, suffix='_Smith')
+# print(df)
 
-# # data = [55, 27, 15, 3]
-# # labels = ['Chocolate', 'Vanilla', 'Strawberry', 'Other']
+# def add_value(number):
+#     return number + 100
 
-# # plt.figure(figsize=(9, 7))
-# # explode = [0.0, 0.08, 0.0, 0.0]
-# # colors = ['saddlebrown', 'wheat', 'crimson', 'lightgrey']
-# # plt.pie(data, 
-# #         explode=explode, 
-# #         labels=labels,
-# #         colors=colors,
-# #         autopct='%.1f%%',  # here we also add the % sign
-# #         shadow=True)
-# # plt.title('The results of the icecream survey', fontsize=14)
-# # plt.legend(labels)
-# # plt.show()
+# df[['Income', 'Tax']] = df[['Income', 'Tax']].apply(add_value)
+# print(df)
 
-# # fig, axes = plt.subplots(1, 2, figsize=(10, 6))
-# # ax1, ax2 = axes
+# df_nums = pd.DataFrame({
+#     'A': [1, 2, 3],
+#     'B': [4, 5, 6],
+#     'C': [7, 8, 9]
+# })
 
-# # ax1.pie(data, 
-# #         labels=labels, 
-# #         colors=colors, 
-# #         startangle=90,
-# #         wedgeprops={'width': 0.2})
-# # ax2.pie(data, labels=labels, colors=colors, startangle=90, counterclock=False)
-# # ax1.set_title('Starting the plot at 90')
-# # ax2.set_title('Plotting clockwise')
+# df_nums['MaxValue'] = df_nums.apply(max, axis=1)
 
-# # plt.show()
+# def calculate_new_income(row):
+#     return row['Income'] - row['Tax'] - 100
 
-# # fig, ax = plt.subplots(figsize=(8, 6))
-# # width = 0.3
+# df['Income_new'] = df.apply(calculate_new_income, axis=1)
 
-# # icecream_data = [55, 27, 15, 3]
-# # icecream_labels = ['Chocolate', 'Vanilla', 'Strawberry', 'Other']
-# # icecream_colors = ['saddlebrown', 'wheat', 'crimson', 'lightgrey']
+# df['Tax_sqrt'] = df['Tax'].apply(np.sqrt, axis=1)
+# print(df)
 
-# # icecream_pie = ax.pie(
-# #     icecream_data,
-# #     radius=1,
-# #     labels=icecream_labels,
-# #     colors=icecream_colors,
-# #     wedgeprops={'width': width},
-# # )
+# df['null_tax'] = df['Tax'].apply(pd.isnull)
+# print(df)
 
+# def calculate_tax(income, tax):
+#     return pd.Series({'Tax rate': (income / tax) * 100, 'Tax rank': 10000 - tax})
 
-# # pets_data = [45, 41, 10, 4]
-# # pets_labels = ['Dogs', 'Cats', 'Parrots', 'Other']
-# # pets_colors = ['orange', 'teal', 'powderblue', 'grey']
-# # pets_pie = ax.pie(
-# #     pets_data,
-# #     radius=1 - width,
-# #     labels=pets_labels,
-# #     labeldistance=0.7,
-# #     colors=pets_colors,
-# #     wedgeprops={'width': width},
-# # )
+# result_tax = df[['Income', 'Tax']].apply(lambda x: calculate_tax(*x), axis=1, result_type='expand')
+# print(result_tax)
 
-# # plt.show()
+# def sum_row(row):
+#     return row['Income'] + row['Tax']
 
-# from sklearn.datasets import load_wine
-# from sklearn.model_selection import train_test_split
+# result_income_sum = df.apply(sum_row, result_type='reduce', axis=1)
+# print(result_income_sum)
 
-# data = load_wine(as_frame=True)["frame"]
-# X, y = data.iloc[:, :-1], data["target"]
+# def mean_of_column(col):
+#     return col.mean()
 
-# # X_train, X_tests, y_train, y_test = train_test_split(X, y, train_size=0.8, random_state=42)
-# X_train, X_tests, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0, stratify=y)
+# result = df[['Income', 'Tax']].apply(mean_of_column, result_type='broadcast')
+# print(result)
 
-# #.fit(), .fit_transform(), and .transform() are the methods of the estimator API in sklearn. The estimator is .fit() only on the train set, while .transform() could be applied to both the training and the test sets. .fit_transform() is the optimized combination of the two methods, equivalent to fit(X_train).transform(X_train).
-print("lala")
+# print("TQDM:")
+# tqdm.pandas()
+
+# result = df[['Income', 'Tax']].progress_apply(mean_of_column, result_type='broadcast')
+# print(result)
+
+# import itertools
+
+# students_maths = ['Ann', 'Kate', 'Tom']
+# students_english = ['Tim', 'Carl', 'Dean']
+# students_history = ['Jane', 'Mike']
+
+# for student in itertools.chain(students_maths, students_english, students_history):
+#     print(student)
+
+# first_list = ['Hi', 'Bye', 'How are you']
+# second_list = ['Jane', 'Anton']
+
+# for first, second in itertools.product(first_list, second_list):
+#     print(first, second)
+
+# # Trying to create a list containing 10^12 elements will result in a memory
+# # too_long_list = list(itertools.product(range(1000000), range(1000000)))
+
+# # However, works with iterators:
+# my_iterator=  itertools.product(range(1000000), range(1000000))
+# for i in range(5):
+#     print(next(my_iterator))
+
+# my_iter = itertools.combinations(range(1, 1000000), 3)
+
+# print("------")
+# for i in range(5):
+#     print(next(my_iter))
+# print("------------")
+# all_students = ['Ann', 'Kate', 'Tom', 'Jane', 'Mike', 'Ann', 'Carl', 'Mike']
+
+# all_students.sort()
+
+# for key, group in itertools.groupby(all_students):
+#     print(key, list(group))
+
+# all_students.sort(key=lambda x: len(x))
+
+# for key, group in itertools.groupby(all_students, key=lambda x: len(x)):
+#     print(key, list(group))
+import numpy as np
+import astropy.units as u
+from astropy.constants import mu0
+from astropy import constants as const
+from astropy.coordinates import SkyCoord
+from astropy.cosmology import WMAP3
+from astropy.cosmology import FlatLambdaCDM
+
+lengths = np.array([49, 58, 947])
+lengths = lengths * u.kilometer
+print(lengths)
+
+time = 14 * u.hour
+print(time.to(u.second))
+
+print(mu0.value)
+print(mu0)
+
+F = const.G * 488 * u.kg
+print(F)
+
+polaris = SkyCoord(ra=37.95456067*u.degree, dec=89.26410897*u.degree, frame='icrs')
+# ra (Right Ascension): east-west 
+# dec (Declination): north-south
+print(polaris)
+
+aldebaran = SkyCoord.from_name('aldebaran')
+print(aldebaran)
+
+print('--------')
+aldebaran = SkyCoord.from_name('aldebaran')  
+polaris = SkyCoord.from_name('polaris')
+print(polaris.separation(aldebaran))  # 72∘51′37.66786948′′
+
+print('---------')
+print(WMAP3.__doc__)  # WMAP3 instance of FlatLambdaCDM cosmology
+
+print('----------')
+my_cosmo = FlatLambdaCDM(H0=67.7, Om0=0.272)
+print(my_cosmo)
