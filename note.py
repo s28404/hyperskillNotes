@@ -24,9 +24,15 @@ plt.figure(figsize=(12, 8))
 # plt.bar(x_axis-0.2, cats, width=0.4, label='Cats')
 # plt.bar(x_axis+0.2, dogs, width=0.4, label='Dogs')
   
-plt.bar(years, cats, label='Cats')
-plt.bar(years, dogs, bottom=cats, label='Dogs')
-plt.bar(years, hamsters, bottom=cats+dogs, label='Hamsters')
+films = ['Wonder Woman', 'Sonic', '1917', 'Star Wars', 'Onward']
+box_office = [16.7, 26.1, 37.0, 34.5, 10.6]
+
+# plotting the chart horizontally
+plt.barh(films, box_office)
+  
+# plt.bar(years, cats, label='Cats')
+# plt.bar(years, dogs, bottom=cats, label='Dogs')
+# plt.bar(years, hamsters, bottom=cats+dogs, label='Hamsters')
 
 # set tick labels and their location
 plt.xticks(x_axis, years)
