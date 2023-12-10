@@ -1,30 +1,47 @@
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+# import matplotlib.pyplot as plt
 
-X, y = load_iris(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=27)
+# from sklearn import datasets
+# from sklearn import svm
 
-model = RandomForestClassifier(n_estimators=25,
-                               max_features=3,
-                               oob_score=True,
-                               random_state=42)
+# digit = datasets.load_digits()
 
-model.fit(X_train, y_train)
+# print(digit.data)
 
-y_pred = model.predict(X_test)
+import numpy as np 
+import matplotlib.pyplot as plt 
 
-y_proba = model.predict_proba(X_test)
-print(y_proba[7])
-print(y_pred[7])
+years = ["2016", "2017", "2018", "2019"]
+cats = np.array([50, 45, 37, 30])
+dogs = np.array([40, 39, 50, 55])
+hamsters = np.array([10, 16, 13, 15])
+  
+# create x-axis values depending on the number of years
+x_axis = np.arange(len(years))
 
-print(model.oob_score_)
-print(model.oob_decision_function_[6])
-print(model.oob_decision_function_[7])
+# increase the figure size 
+plt.figure(figsize=(12, 8))
 
+# plt.bar(x_axis-0.2, cats, width=0.4, label='Cats')
+# plt.bar(x_axis+0.2, dogs, width=0.4, label='Dogs')
+  
+films = ['Wonder Woman', 'Sonic', '1917', 'Star Wars', 'Onward']
+box_office = [16.7, 26.1, 37.0, 34.5, 10.6]
 
-print(len(model.estimators_))
+# plotting the chart horizontally
+plt.barh(films, box_office)
+  
+# plt.bar(years, cats, label='Cats')
+# plt.bar(years, dogs, bottom=cats, label='Dogs')
+# plt.bar(years, hamsters, bottom=cats+dogs, label='Hamsters')
 
-# make a prediction using 0th tree
-tree = model.estimators_[0]
-print(tree.predict(X_test[:10]))
+# set tick labels and their location
+plt.xticks(x_axis, years)
+
+plt.xlabel('Years', fontsize=14)
+plt.ylabel('Preference (%)', fontsize=14)
+plt.title('The results of cat/dog survey', fontsize=20)
+
+# add legend 
+plt.legend()
+
+plt.show()
