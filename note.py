@@ -74,7 +74,7 @@
 
 # output_matrix = one_hot_encoding(sentence)
 
-# print(output_matrix)
+print(output_matrix)
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
